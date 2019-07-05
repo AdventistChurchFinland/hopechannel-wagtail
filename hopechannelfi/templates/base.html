@@ -1,0 +1,63 @@
+{% load static wagtailuserbar %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="fi">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %} | {{ site_name }}{% endif %}
+                {% endwith %}
+            {% endblock %}
+        </title>
+        <meta name="description"
+            content="HopeChannel Suomi on innoittava hengellinen elämys, joka tarjoaa raamatullista videosisältöä kristinuskon perusteista, seurakunnasta sekä profetioista adventismin näkökulmasta." />
+        <meta name="keywords"
+            content="hopechannel, hopechannel suomi,raamattu, seurakunta, adventismi, kristinusko, profetiat" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {# Google fonts #}
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,500,600,900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Anton:400" rel="stylesheet">
+
+        {# Global stylesheets #}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/cookieconsent.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/flexboxgrid.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+
+    	<noscript><span style="color: white">Tämä sivu tarvitsee Javascript-oikeudet toimiakseen. Älä estä Javascript-koodin
+			ajamista selaimen asetuksilla.</span></noscript>
+
+        {% include "includes/hero.html" %}
+
+        {% block content %}{% endblock %}
+
+        {% include "includes/footer.html" %}
+
+        {# Global javascript #}
+        <script src="{% static 'js/video-player.js' %}"></script>
+        <script src="{% static 'js/siema.min.js' %}"></script>
+        <script src="{% static 'js/scroller.js' %}"></script>
+        <script src="{% static 'js/series.js' %}"></script>
+        <script src="{% static 'js/cookieconsent.min.js' %}"></script>
+        <script src="{% static 'js/cookieconsent-loader.js' %}"></script>
+
+        {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+        {% endblock %}
+    </body>
+</html>

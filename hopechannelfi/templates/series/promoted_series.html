@@ -1,0 +1,40 @@
+{% load static %}
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+
+<section class="series">
+    {%if self.promoted_series_title %}<h2>{{ self.promoted_series_title }}</h2>{% endif %}
+    <div id="series" class="row">
+        {% for iter in self.promoted_series.all %}
+            <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 series-menu">
+                <a href="{% pageurl iter.series %}" title="{{ iter.series.series.title }} - {{ iter.series.series.sub_title }}">
+                    {% image iter.series.series.poster width-218 as poster_image %}
+                    <img src="{{ poster_image.url }}" alt="{{ iter.series.series.title }} - {{ iter.series.series.sub_title }}">
+                    <span>Katso<img src="{% static 'images/icon-arrow-right.svg' %}" /></span>
+                </a>
+                <button>Info<img src="{% static 'images/icon-down.svg' %}" /></button>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 series-menu__info">
+                    {% image iter.series.series.hero fill-1920x780 as hero_image %}
+                    <article class="series-menu__info-content" style="background-image: url({{ hero_image.url }});">
+                        <header>
+                            <h3>{{ iter.series.series.title }}</h3>
+                            <p>{{ iter.series.series.sub_title }}</p>
+                        </header>
+                        <p>
+                          {% if iter.series.series.produced_from and iter.series.series.produced_to %}
+                            Tuotantovuodet: {{ iter.series.series.produced_from }}–{{ iter.series.series.produced_to }}
+                          {% else %}  
+                            Tuotantovuosi: {{ iter.series.series.produced_from }}
+                          {% endif %}  
+                          <br>Sarjassa jaksoja: {{ iter.series.series.episodes.all|length }}
+                        </p>
+                        <div>{{ iter.series.series.description|richtext }}</div>
+                        <p>
+                            <a href="{% pageurl iter.series %}" title="{{ iter.series.series.title }} - {{ iter.series.series.sub_title }}" class="series-menu__info-content__link">Katso<img src="{% static 'images/icon-arrow-right.svg' %}" /></a>
+                        </p>
+                    </article>
+                </div>
+            </div> 
+        {% endfor %}       
+    </div>
+</section>

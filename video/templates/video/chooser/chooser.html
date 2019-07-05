@@ -1,0 +1,17 @@
+{% include "wagtailadmin/shared/header.html" with title="Choose a video" tabbed=1 merged=1 icon="media" %}
+
+
+<div class="tab-content">
+    <section id="search" class="{% if not uploadform.errors %}active {% endif %}nice-padding">
+        <form class="video-search search-bar" action="{% url 'video:chooser' %}" method="GET" novalidate>
+            <ul class="fields">
+                {% for field in searchform %}
+                    {% include "wagtailadmin/shared/field_as_li.html" with field=field %}
+                {% endfor %}
+            </ul>
+        </form>
+        <div id="search-results" class="listing media">
+            {% include "video/chooser/results.html" %}
+        </div>
+    </section>
+</div>

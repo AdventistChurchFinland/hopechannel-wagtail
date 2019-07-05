@@ -1,0 +1,15 @@
+{% load static wagtailimages_tags %}
+
+<section>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 container">
+            {% image self.hero fill-1920x780 as hero_image %}
+            <img src="{{ hero_image.url }}" width="100%" />
+            <a href="/"><img src="{% static 'images/hcf-logo.svg' %}" class="container-image-top" alt="HopeChannel Suomi - Logo"></a>
+            <div class="container-text-block">
+                <h1>{{ self.title }}</h1>
+                {{ self.sub_title }}
+            </div>                    
+        </div>
+    </div>
+</section>

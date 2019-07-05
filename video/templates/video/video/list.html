@@ -1,0 +1,32 @@
+{% load i18n %}
+<table class="listing">
+    <col />
+    <col  />
+    <col width="16%" />
+    <thead>
+        <tr class="table-headers">
+            <th>
+                {% if not is_searching %}
+                    <a href="{{ video_index_url }}{% if not ordering == "title" %}?ordering=title{% endif %}" class="icon icon-arrow-down-after {% if  ordering == "title" %}teal{% endif %}">
+                        {% trans "Title" %}
+                    </a>
+                {% else %}
+                    {% trans "Title" %}
+                {% endif %}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for video_file in video_files %}
+            <tr>
+                <td class="title">
+                    {% if choosing %}
+                        <h2><a href="{% url 'video:video_chosen' video_file.id %}" class="video-choice">{{ video_file.title }}</a></h2>
+                    {% else %}
+                        <h2><a href="{{ video_file.edit_link }}">{{ video_file.title }}</a></h2>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

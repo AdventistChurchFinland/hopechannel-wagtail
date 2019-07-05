@@ -1,0 +1,8 @@
+.video-chooser .chosen:before {
+  content: ' ';
+  display: table;
+}
+
+.video-chooser .unchosen:before {
+  content: 'P';
+}

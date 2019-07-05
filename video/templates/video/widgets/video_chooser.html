@@ -1,0 +1,17 @@
+{% extends "wagtailadmin/widgets/chooser.html" %}
+{% load wagtailimages_tags %}
+
+{% block chooser_class %}image-chooser video-chooser{% endblock %}
+
+{% block chosen_state_view %}
+    <span class="title">{{ video.title }}</span>
+    <div class="preview-image">
+        {% if video.thumbnail %}
+            {% image video.thumbnail max-165x165 class="show-transparency" title=video.title %}
+        {% else %}
+            <img alt="{{ video.title }}">
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block edit_chosen_item_url %}{% if video %}{{ edit_link }}{% endif %}{% endblock %}

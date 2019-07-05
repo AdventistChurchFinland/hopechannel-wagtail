@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    {% include "series/promoted_series.html" %}
+
+    {% for iter in self.series_previews.all %}
+        {% include "series/series_preview.html" with title=iter.title series=iter.series %}
+    {% endfor %}
+
+</main>
+{% endblock content %}
