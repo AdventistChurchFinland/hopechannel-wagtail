@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    {% for series_item in series %}
+        {% include "series/series_preview.html" with series=series_item %}
+    {% endfor %}
+</main>
+{% endblock content %}

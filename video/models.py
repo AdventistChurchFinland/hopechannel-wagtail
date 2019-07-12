@@ -8,6 +8,9 @@ from wagtail.search import index
 from wagtail.search.queryset import SearchableQuerySetMixin
 from wagtail.snippets.models import register_snippet
 
+from taggit.managers import TaggableManager
+from taggit.models import TaggedItemBase
+
 
 @register_snippet
 class VideoCategory(models.Model):
@@ -43,6 +46,11 @@ class MediaQuerySet(SearchableQuerySetMixin, models.QuerySet):
     pass
 
 
+class VideoTag(TaggedItemBase):
+    content_object = models.ForeignKey(
+        'video.Video', related_name="tagged_items", on_delete=models.CASCADE)
+
+
 class Video(index.Indexed, models.Model):
     """Video class"""
 
@@ -61,8 +69,10 @@ class Video(index.Indexed, models.Model):
         on_delete=models.SET_NULL,
         related_name="+"
     )
-    duration = models.DurationField(blank=True, null=True)
+    duration = models.DurationField(
+        blank=True, null=True, help_text="Insert duration either as minutes, e.g. `127` or as a time string e.g. `2:07`.")
     categories = models.ManyToManyField("video.VideoCategory", blank=True)
+    tags = TaggableManager(through=VideoTag, blank=True)
 
     objects = MediaQuerySet.as_manager()
 
@@ -75,11 +85,12 @@ class Video(index.Indexed, models.Model):
         FieldPanel('external_video_id', classname="title"),
         MultiFieldPanel([
             FieldPanel('title'),
-            FieldPanel('description'),
+            FieldPanel('description', widget=forms.Textarea),
             ImageChooserPanel('thumbnail'),
         ], heading="Basic information"),
         MultiFieldPanel([
             FieldPanel('duration'),
+            FieldPanel('tags'),
             FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
         ], heading="Details")
     ]

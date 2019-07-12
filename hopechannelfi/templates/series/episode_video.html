@@ -1,0 +1,8 @@
+{% load static %}
+{% load wagtailimages_tags %}
+
+{% image episode.video.thumbnail fill-512x288 as episode_image %}
+<img src="{{ episode_image.url }}" alt="{{ series.title }} - {{ episode.video.title }}"><img class="play" src="{% static 'images/icon-play.svg' %}" data-video-id="{{ episode.video.external_video_id }}" alt="Toista video">
+<h3>{{ episode.video.title }}</h3>
+<p>{{ episode.video.description }}</p>
+<h5>Osa {{ forloop.counter }}/{{ number_of_episodes }}. Kesto {{ episode.video.duration_string }}.</h5>

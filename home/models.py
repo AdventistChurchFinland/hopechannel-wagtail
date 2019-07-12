@@ -9,6 +9,7 @@ from modelcluster.fields import ParentalKey
 
 class HomePagePromotedSeriesOrderable(Orderable):
     """Allows selecting one or more series to display in the promoted series section"""
+
     page = ParentalKey("home.HomePage", related_name="promoted_series")
     series = models.ForeignKey("series.SeriesPage", on_delete=models.CASCADE)
 
@@ -19,6 +20,7 @@ class HomePagePromotedSeriesOrderable(Orderable):
 
 class HomePageSeriesPreviewsOrderable(Orderable):
     """Allows selecting one or more series to display in the promoted series section"""
+
     page = ParentalKey("home.HomePage", related_name="series_previews")
     title = models.CharField(blank=True, null=True, max_length=255)
     series = models.ForeignKey("series.SeriesPage", on_delete=models.CASCADE)
@@ -30,6 +32,10 @@ class HomePageSeriesPreviewsOrderable(Orderable):
 
 
 class HomePage(Page):
+    """HomePage class"""
+
+    template = "home/home_page.html"
+    max_count = 1
 
     sub_title = models.CharField(blank=False, null=False, max_length=255)
     hero = models.ForeignKey(

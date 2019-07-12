@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 
@@ -16,8 +17,8 @@ class VideoAdmin(ThumbnailMixin, ModelAdmin):
     menu_icon = 'media'
     menu_order = 200
     list_display = ("admin_thumb", "admin_title", "external_video_id",)
-    list_filter = ("categories",)
-    search_fields = ("external_video_id", "title",)
+    list_filter = ("categories", "tags",)
+    search_fields = ("external_video_id", "title", "tags",)
     list_display_add_buttons = 'admin_title'
 
     thumb_image_field_name = 'thumbnail'
