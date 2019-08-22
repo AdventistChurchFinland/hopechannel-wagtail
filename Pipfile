@@ -12,7 +12,7 @@ pylint = "*"
 wagtail = "==2.6.1"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
 
 [scripts]
 server = "python manage.py runserver"
