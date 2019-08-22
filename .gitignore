@@ -10,3 +10,4 @@ node_modules*
 /None
 *.log
 *.sqlite3
+local.py
