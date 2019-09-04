@@ -120,7 +120,9 @@
         Array.prototype.forEach.call(series, function(el, index) {
             el.setAttribute('data-index', index);
             const showMore = el.getElementsByTagName('button')[0];
-            showMore.addEventListener('click', toggleInfo);
+            if (showMore) {
+                showMore.addEventListener('click', toggleInfo);
+            }
         })
     }
 })();
