@@ -701,10 +701,11 @@ footer {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 90%;
+  width: 80%;
+  max-width: 80%;
+  max-height: 80%;
   transform: translate(-50%, -50%);
   z-index: 20;
-  padding-top: 40px;
 }
 
 .modal__video-container {
@@ -721,7 +722,7 @@ footer {
   margin: 0;
   position: absolute;
   right: 0;
-  top: 0;
+  top: -40px;
   outline: none;
   z-index: 30;
   cursor: pointer;
