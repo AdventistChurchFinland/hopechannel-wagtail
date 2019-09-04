@@ -11,15 +11,17 @@
     function Scroller(element) {
         this.scroller = element.getElementsByClassName('scroller__items')[0];
 
+        const itemCount = this.scroller.children.length
+
         // Having to build perPage option the old way for IE11
         const siemaPerPageOption = {};
-        siemaPerPageOption[BREAKPOINTS.xs] = 2;
-        siemaPerPageOption[BREAKPOINTS.md] = 3;
-        siemaPerPageOption[BREAKPOINTS.lg] = 4;
+        siemaPerPageOption[BREAKPOINTS.xs] = Math.min(2, itemCount);
+        siemaPerPageOption[BREAKPOINTS.md] = Math.min(3, itemCount);
+        siemaPerPageOption[BREAKPOINTS.lg] = Math.min(4, itemCount);
 
         const siemaOptions = {
             selector: this.scroller,
-            perPage: Math.min(siemaPerPageOption, this.scroller.children.length),
+            perPage: siemaPerPageOption,
             loop: true
         }
 
