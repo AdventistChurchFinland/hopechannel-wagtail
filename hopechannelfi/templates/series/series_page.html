@@ -21,6 +21,15 @@
             </div>
         </section>
 
+        <p>
+            <a href="/" class="back">
+		    	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+			    	<path d="M9.707 13.707l5-5a.999.999 0 0 0 0-1.414l-5-5a.999.999 0 1 0-1.414 1.414L11.586 7H2a1 1 0 0 0 0 2h9.586l-3.293 3.293a.997.997 0 0 0 0 1.414.999.999 0 0 0 1.414 0z" />
+				</svg>
+			    etusivulle
+		    </a>
+        </p>
+
         {% if self.related_series.all|length %}
             {% include "series/promoted_series.html" with title=self.related_series_title series=self.related_series.all hide_info=True %}
         {% endif %}
