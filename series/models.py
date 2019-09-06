@@ -71,6 +71,11 @@ class SeriesPage(Page):
         ], heading="Related Series"),
     ]
 
+    @property
+    def has_new_episodes(self):
+        new_episodes = self.episodes.filter(is_new=True)
+        return len(new_episodes) > 0
+
     parent_page_types = ['series.SeriesIndexPage']
     subpage_types = []
 
@@ -94,9 +99,12 @@ class SeriesEpisode(Orderable):
         on_delete=models.CASCADE,
         related_name="+"
     )
+    is_new = models.BooleanField(
+        blank=True, null=False, default=False, verbose_name="New episode")
 
     panels = [
         VideoChooserPanel('video'),
+        FieldPanel('is_new')
     ]
 
     def __str__(self):

@@ -6,3 +6,4 @@
 <h3>{{ episode.video.title }}</h3>
 <p>{{ episode.video.description }}</p>
 <h5>Osa {{ forloop.counter }}/{{ number_of_episodes }}. Kesto {{ episode.video.duration_string }}.</h5>
+{% if episode.is_new %}<h6>uusi jakso</h6>{% endif %}
