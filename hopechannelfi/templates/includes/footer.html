@@ -9,11 +9,18 @@
                             href="https://www.stimme-der-hoffnung.de/">Stimme der Hoffnung</a> ja <a
                             href="http://artvnow.com">Adventist Review Television</a>.</p>
         </div>
+        {% if settings.site_settings.ContactInformationSettings %}
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <h4>Yhteystiedot</h4>
-            <p>Suomen Adventtikirkko<br>PL 94<br>33101 TAMPERE</p>
-            <p>Puhelin (vaihde) 03 3611 111.
+            <p>{{ settings.site_settings.ContactInformationSettings.name }}<br>
+            {{ settings.site_settings.ContactInformationSettings.address }}<br>
+            {{ settings.site_settings.ContactInformationSettings.post_code }} {{ settings.site_settings.ContactInformationSettings.city|upper }}
+            </p>
+            {% if settings.site_settings.ContactInformationSettings.phone %}
+            <p>Puhelin (vaihde) {{ settings.site_settings.ContactInformationSettings.phone }}.</p>
+            {% endif %}
         </div>
+        {% endif %}
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <h4>Evästeistä</h4>
             <p>Käytämme Vimeon suoratoistopalvelua videoiden teknisen esittämisen mahdollistamiseksi. Katselemalla sivuston
