@@ -16,6 +16,7 @@ class VideoAdmin(ThumbnailMixin, ModelAdmin):
     exclude_from_explorer = False
     menu_icon = 'media'
     menu_order = 200
+    list_per_page = 10
     list_display = ("admin_thumb", "admin_title", "external_video_id",)
     list_filter = ("categories", "tags",)
     search_fields = ("external_video_id", "title", "tags",)
