@@ -52,6 +52,8 @@ class SeriesPage(Page):
     )
     related_series_title = models.CharField(
         blank=True, null=True, max_length=255, verbose_name="Title")
+    multi_season_series = models.BooleanField(
+        blank=True, null=False, default=False, verbose_name="Multi season series", help_text="Is this a part of a multi season series?")
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
@@ -63,6 +65,7 @@ class SeriesPage(Page):
             FieldPanel('produced_from'),
             FieldPanel('produced_to'),
             ImageChooserPanel('poster'),
+            FieldPanel('multi_season_series'),
         ], heading="Information"),
         InlinePanel('episodes', label="Episodes"),
         MultiFieldPanel([
