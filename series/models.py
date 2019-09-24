@@ -79,6 +79,9 @@ class SeriesPage(Page):
     parent_page_types = ['series.SeriesIndexPage']
     subpage_types = []
 
+    def get_admin_display_title(self):
+        return '{} – {}'.format(super().get_admin_display_title(), self.sub_title)
+
     def __str__(self):
         return self.title
 
