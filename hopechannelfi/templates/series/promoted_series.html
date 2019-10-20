@@ -3,7 +3,7 @@
 {% load wagtailcore_tags %}
 
 <section class="series">
-    {%if title %}<h2>{{ title|lower }}</h2>{% endif %}
+    {%if title %}<h2>{{ title }}</h2>{% endif %}
     <div id="series" class="row">
         {% for iter in series %}
             <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 series-menu">

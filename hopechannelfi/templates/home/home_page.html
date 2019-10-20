@@ -4,6 +4,8 @@
 <main>
     {% include "movie/movies_preview.html" with title=self.promoted_movies_title movies=self.promoted_movies.all %}
 
+    {% include "video/promoted_videos.html" with title=self.promoted_videos_title videos=self.promoted_videos.all %}
+
     {% include "series/promoted_series.html" with title=self.promoted_series_title series=self.promoted_series.all %}
 
     {% for iter in self.series_previews.all %}

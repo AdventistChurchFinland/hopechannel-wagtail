@@ -1,0 +1,10 @@
+{% load static %}
+{% load wagtailimages_tags %}
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 photo-grid">
+  {% image video.thumbnail fill-512x288 as video_image %}
+  <img src="{{ video_image.url }}" alt="{{ video.title }}"><img class="play" src="{% static 'images/icon-play.svg' %}" data-video-id="{{ video.external_video_id }}" alt="Toista video">
+  <h3>{{ video.title }}</h3>
+  <p>{{ video.description }}</p>
+  <h5>Kesto {{ video.duration_string }}.</h5>
+</div> 
