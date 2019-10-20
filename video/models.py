@@ -69,6 +69,7 @@ class Video(index.Indexed, models.Model):
         on_delete=models.SET_NULL,
         related_name="+"
     )
+    rating = models.CharField(null=True, blank=True, max_length=5)
     duration = models.DurationField(
         blank=True, null=True, help_text="Insert duration either as minutes, e.g. `127` or as a time string e.g. `2:07`.")
     categories = models.ManyToManyField("video.VideoCategory", blank=True)
@@ -90,6 +91,7 @@ class Video(index.Indexed, models.Model):
         ], heading="Basic information"),
         MultiFieldPanel([
             FieldPanel('duration'),
+            FieldPanel('rating'),
             FieldPanel('tags'),
             FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
         ], heading="Details")
