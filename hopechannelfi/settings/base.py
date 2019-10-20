@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'search',
     'video',
     'series',
+    'movie',
     'site_settings',
 
     'wagtail.contrib.forms',

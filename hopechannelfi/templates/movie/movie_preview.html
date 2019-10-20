@@ -1,0 +1,19 @@
+{% load static %}
+{% load wagtailimages_tags %}
+{% load movie_tags %}
+
+{% image movie.video.thumbnail fill-1024x1024 as movie_image %}
+{% image movie.hover_thumbnail fill-1024x1024 as movie_image_hover %}
+
+<article class="col-xs-12 col-sm-6 col-md-4 col-lg-3 photo-grid movie">
+  <button class="play" data-video-id="{{ movie.video.external_video_id }}">
+    <img src="{{ movie_image.url}}" alt="{{ movie.title }}" class="movie__poster"/>
+    {%if movie_image_hover %}<img src="{{ movie_image_hover.url}}" alt="{{ movie.title }}" class="movie__poster movie__poster--hover"/>{% endif %}
+    <img src="{% static 'images/icon-play.svg' %}" class="play-icon" alt="Toista video" />
+  </button>
+  <span class="movie__duration">{% duration movie.video.duration %}.{%if movie.video.rating %} ({{ movie.video.rating }}).{% endif %}</span>
+  <div class="movie__content">
+    <h3>{{ movie.title }}</h3>
+    <p>{{ movie.producer }}, {{ movie.year }}</p>
+  </div>
+</article>

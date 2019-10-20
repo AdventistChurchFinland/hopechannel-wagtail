@@ -1,0 +1,8 @@
+<section class="movies">
+  {% if title %}<h2>{{ title }}</h2>{% endif %}
+  <div class="row">
+    {% for iter in movies %}
+      {% include "movie/movie_preview.html" with movie=iter.movie %}
+    {% endfor %}
+  </div>
+</section>
