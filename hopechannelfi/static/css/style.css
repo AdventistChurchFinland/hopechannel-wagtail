@@ -32,9 +32,9 @@ h1 {
 /* osioiden väliotsikot */
 h2 {
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 2rem;
+  font-size: 1.375em;
   font-weight: 600;
-  font-variant: small-caps;
+  text-transform: uppercase;
   color: #f0f0f0;
   margin: 0;
   margin: 1rem 1rem 0.5rem;
@@ -205,6 +205,77 @@ footer {
   fill: orange;
 }
 
+/* MOVIES */
+.movie header {
+  position: relative;
+}
+.movie__duration {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #f0f0f0;
+  background-color: #002244;
+  padding: 0.2rem 0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.movie .play {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+}
+.movie .play:active,
+.movie .play:focus {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+.movie .play-icon {
+  pointer-events: none;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+}
+.movie__poster {
+  display: block;
+  width: 100%;
+}
+.movie__poster--hover {
+  pointer-events: none;
+  display: none;
+}
+.movie__content {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  transition: all 0.2s ease-in-out;
+}
+.movie:hover .movie__poster {
+  display: none;
+}
+.movie:hover .movie__poster--hover {
+  display: block;
+  opacity: 0.8;
+}
+.movie:hover .play-icon {
+  display: block;
+}
+.movie:hover .movie__content {
+  transform: translateY(-100%);
+}
+
 /* SERIES MENU */
 
 .left-third {
@@ -221,11 +292,13 @@ footer {
   }
 }
 
-.series > h2 {
+.series > h2,
+.movies > h2 {
   margin: 1rem 1px 0.5rem;
 }
 @media screen and (min-width: 768px) {
-  .series > h2 {
+  .series > h2,
+  .movies > h2 {
     margin: 1rem 2px 0.5rem;
   }
 }
@@ -465,6 +538,9 @@ footer {
 }
 
 /* SCROLLER */
+.header-link {
+  font-size: 2rem;
+}
 .header-link svg {
   width: 20px;
   height: 20px;
@@ -600,7 +676,7 @@ footer {
   cursor: pointer;
 }
 
-.photo-grid > p {
+.photo-grid p {
   font-family: 'Open Sans', sans-serif;
   font-size: 0.8rem;
   font-weight: 400;

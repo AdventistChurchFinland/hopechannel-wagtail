@@ -4,7 +4,7 @@
 
 <section class="scroller">
 	<h2>
-		{% if title %}{{ title|lower }}<br>{% endif %}
+		{% if title %}{{ title }}<br>{% endif %}
 		<a href="{% pageurl series %}" class="header-link" title="{{ series.title }} - {{ series.sub_title }}">
 			{{ series.title|upper }}{%if series.multi_season_series %}: {{ series.sub_title|upper }}{% endif %}
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">

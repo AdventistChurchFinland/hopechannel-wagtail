@@ -31,6 +31,17 @@ class HomePageSeriesPreviewsOrderable(Orderable):
     ]
 
 
+class HomePagePromotedMoviesOrderable(Orderable):
+    """Allows selecting one or more series to display in the promoted series section"""
+
+    page = ParentalKey("home.HomePage", related_name="promoted_movies")
+    movie = models.ForeignKey("movie.MoviePage", on_delete=models.CASCADE)
+
+    panels = [
+        PageChooserPanel("movie"),
+    ]
+
+
 class HomePage(Page):
     """HomePage class"""
 
@@ -47,12 +58,18 @@ class HomePage(Page):
     )
     promoted_series_title = models.CharField(
         blank=True, null=True, max_length=255, verbose_name="Title")
+    promoted_movies_title = models.CharField(
+        blank=True, null=True, max_length=255, verbose_name="Title")
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('sub_title'),
             ImageChooserPanel('hero'),
         ], heading="Header"),
+        MultiFieldPanel([
+            FieldPanel('promoted_movies_title'),
+            InlinePanel("promoted_movies", min_num=0, max_num=8)
+        ], heading="Promoted Movies"),
         MultiFieldPanel([
             FieldPanel('promoted_series_title'),
             InlinePanel("promoted_series", min_num=1, max_num=6)
