@@ -56,17 +56,6 @@ class MoviePage(Page):
     parent_page_types = ['movie.MoviesIndexPage']
     subpage_types = []
 
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-
-        total_seconds = int(self.video.duration)
-        hours = total_seconds // 3600
-        minutes = (total_seconds % 3600) // 60
-
-        context["duration_string"] = '{} h {} min'.format(hours, minutes)
-
-        return context
-
     def __str__(self):
         return self.title
 
@@ -95,7 +84,7 @@ class MoviesIndexPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        # context["series"] = SeriesPage.objects.live().public()
+        context["movies"] = MoviePage.objects.live().public()
         return context
 
     def __str__(self):
