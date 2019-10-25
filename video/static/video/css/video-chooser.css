@@ -1,3 +1,7 @@
+.video-chooser .chosen .title {
+  margin-left: 0.3rem;
+}
+
 .video-chooser .chosen:before {
   content: ' ';
   display: table;
