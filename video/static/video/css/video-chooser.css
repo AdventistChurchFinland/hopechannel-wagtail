@@ -4,5 +4,5 @@
 }
 
 .video-chooser .unchosen:before {
-  content: 'P';
+  content: '\e032';
 }
