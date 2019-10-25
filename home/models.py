@@ -1,12 +1,17 @@
 from django.db import models
 
-from wagtail.core.models import Page, Orderable
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, InlinePanel, PageChooserPanel
+from wagtail.api import APIField
+from wagtail.core.models import Page, Orderable
+from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from modelcluster.fields import ParentalKey
 
 from video.edit_handlers import VideoChooserPanel
+from video.models import VideoSerializer
+
+from series.models import PromotedSeriesSerializer
 
 
 class HomePagePromotedSeriesOrderable(Orderable):
@@ -17,6 +22,10 @@ class HomePagePromotedSeriesOrderable(Orderable):
 
     panels = [
         PageChooserPanel("series")
+    ]
+
+    api_fields = [
+        APIField('series', serializer=PromotedSeriesSerializer()),
     ]
 
 
@@ -32,6 +41,11 @@ class HomePageSeriesPreviewsOrderable(Orderable):
         PageChooserPanel("series"),
     ]
 
+    api_fields = [
+        APIField('title'),
+        APIField('series'),
+    ]
+
 
 class HomePagePromotedMoviesOrderable(Orderable):
     """Allows selecting one or more series to display in the promoted series section"""
@@ -43,6 +57,15 @@ class HomePagePromotedMoviesOrderable(Orderable):
         PageChooserPanel("movie"),
     ]
 
+    @property
+    def movie_video(self):
+        return self.movie.video
+
+    api_fields = [
+        APIField('movie'),
+        APIField('movie_video', serializer=VideoSerializer('fill-1024x1024')),
+    ]
+
 
 class HomePagePromotedVideosOrderable(Orderable):
     """Allows selecting one or more series to display in the promoted series section"""
@@ -52,6 +75,10 @@ class HomePagePromotedVideosOrderable(Orderable):
 
     panels = [
         VideoChooserPanel('video'),
+    ]
+
+    api_fields = [
+        APIField('video', serializer=VideoSerializer('fill-512x288')),
     ]
 
 
@@ -77,6 +104,20 @@ class HomePage(Page):
         blank=True, null=True, max_length=255, verbose_name="Title")
     promoted_videos_sub_title = models.CharField(
         blank=True, null=True, max_length=255, verbose_name="Sub title")
+
+    api_fields = [
+        APIField('sub_title'),
+        APIField('hero', serializer=ImageRenditionField(
+            'fill-1920x780')),
+        APIField('promoted_series_title'),
+        APIField('promoted_series'),
+        APIField('promoted_movies_title'),
+        APIField('promoted_movies'),
+        APIField('promoted_videos_title'),
+        APIField('promoted_videos_sub_title'),
+        APIField('promoted_videos'),
+        APIField('series_previews'),
+    ]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([

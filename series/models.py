@@ -1,8 +1,12 @@
+from collections import OrderedDict
+
 from django.db import models
 
+from wagtail.admin.edit_handlers import PageChooserPanel, FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.api import APIField
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import PageChooserPanel, FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -10,6 +14,9 @@ from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
 
 from video.edit_handlers import VideoChooserPanel
+from video.models import VideoSerializer
+
+from rest_framework.fields import Field, IntegerField
 
 
 class SeriesPageRelatedSeries(Orderable):
@@ -54,6 +61,18 @@ class SeriesPage(Page):
         blank=True, null=True, max_length=255, verbose_name="Title")
     multi_season_series = models.BooleanField(
         blank=True, null=False, default=False, verbose_name="Multi season series", help_text="Is this a part of a multi season series?")
+
+    api_fields = [
+        APIField('sub_title'),
+        APIField('produced_from'),
+        APIField('produced_to'),
+        APIField('description'),
+        APIField('hero', serializer=ImageRenditionField(
+            'fill-1920x780')),
+        APIField('poster', serializer=ImageRenditionField(
+            'width-218')),
+        APIField('episodes'),
+    ]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
@@ -108,9 +127,14 @@ class SeriesEpisode(Orderable):
     is_new = models.BooleanField(
         blank=True, null=False, default=False, verbose_name="New episode")
 
+    api_fields = [
+        APIField('video', serializer=VideoSerializer('fill-512x288')),
+        APIField('is_new'),
+    ]
+
     panels = [
         VideoChooserPanel('video'),
-        FieldPanel('is_new')
+        FieldPanel('is_new'),
     ]
 
     def __str__(self):
@@ -145,3 +169,21 @@ class SeriesIndexPage(Page):
         context = super().get_context(request, *args, **kwargs)
         context["series"] = SeriesPage.objects.live().public()
         return context
+
+
+class PromotedSeriesSerializer(Field):
+    def to_representation(self, series):
+        hero_rendition = series.hero.get_rendition('fill-1920x780')
+        poster_rendition = series.hero.get_rendition('width-218')
+
+        return OrderedDict([
+            ('url', series.url),
+            ('title', series.title),
+            ('sub_title', series.sub_title),
+            ('description', series.description),
+            ('produced_from', series.produced_from),
+            ('produced_to', series.produced_to),
+            ('episode_count', series.episodes.count()),
+            ('hero', hero_rendition.url),
+            ('poster', poster_rendition.url),
+        ])

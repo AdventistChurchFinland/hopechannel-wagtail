@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django import forms
 from django.db import models, IntegrityError
 from django.utils.text import slugify
@@ -10,6 +12,8 @@ from wagtail.snippets.models import register_snippet
 
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
+
+from rest_framework.serializers import Field
 
 
 @register_snippet
@@ -107,3 +111,21 @@ class Video(index.Indexed, models.Model):
 
     def __str__(self):
         return self.title
+
+
+class VideoSerializer(Field):
+    def __init__(self, filter_spec, *args, **kwargs):
+        self.filter_spec = filter_spec
+        super(VideoSerializer, self).__init__(*args, **kwargs)
+
+    def to_representation(self, video):
+        thumbnail_rendition = video.thumbnail.get_rendition(self.filter_spec)
+
+        return OrderedDict([
+            ('external_video_id', video.external_video_id),
+            ('title', video.title),
+            ('description', video.description),
+            ('thumbnail', thumbnail_rendition.url),
+            ('rating', video.rating),
+            ('duration', video.duration.total_seconds()),
+        ])
