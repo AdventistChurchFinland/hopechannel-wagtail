@@ -13,7 +13,9 @@ class MoviePage(Page):
 
     video = models.ForeignKey(
         "video.Video",
-        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
         related_name="+"
     )
     sub_title = models.CharField(blank=False, null=False, max_length=255)

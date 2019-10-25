@@ -1,8 +1,12 @@
+.video-chooser .chosen .title {
+  margin-left: 0.3rem;
+}
+
 .video-chooser .chosen:before {
   content: ' ';
   display: table;
 }
 
 .video-chooser .unchosen:before {
-  content: 'P';
+  content: '\e032';
 }

@@ -1,0 +1,15 @@
+{%if videos %}
+<section class="videos">
+    {%if title %}
+      <h2>
+        {{ title }}
+        {%if sub_title %}<br><span class="header-link">{{ sub_title }}</span>{% endif %}
+      </h2>
+    {% endif %}
+    <div class="row">
+        {% for iter in videos %}
+          {% include "video/promoted_video.html" with video=iter.video %}
+        {% endfor %}       
+    </div>
+</section>
+{% endif %}
