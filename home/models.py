@@ -75,6 +75,8 @@ class HomePage(Page):
         blank=True, null=True, max_length=255, verbose_name="Title")
     promoted_videos_title = models.CharField(
         blank=True, null=True, max_length=255, verbose_name="Title")
+    promoted_videos_sub_title = models.CharField(
+        blank=True, null=True, max_length=255, verbose_name="Sub title")
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
@@ -87,6 +89,7 @@ class HomePage(Page):
         ], heading="Promoted Movies"),
         MultiFieldPanel([
             FieldPanel('promoted_videos_title'),
+            FieldPanel('promoted_videos_sub_title'),
             InlinePanel("promoted_videos", min_num=0, max_num=8)
         ], heading="Promoted Videos"),
         MultiFieldPanel([

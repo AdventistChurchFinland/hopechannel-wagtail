@@ -276,6 +276,11 @@ footer {
   transform: translateY(-100%);
 }
 
+/* VIDEOS */
+.videos .header-link {
+  color: #f1d600;
+}
+
 /* SERIES MENU */
 
 .left-third {
@@ -293,6 +298,7 @@ footer {
 }
 
 .series > h2,
+.videos > h2,
 .movies > h2 {
   margin: 1rem 1px 0.5rem;
 }
