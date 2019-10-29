@@ -16,6 +16,7 @@ from modelcluster.fields import ParentalKey
 from video.edit_handlers import VideoChooserPanel
 from video.models import VideoSerializer
 
+from rest_framework.serializers import RelatedField, ModelSerializer
 from rest_framework.fields import Field, IntegerField
 
 
@@ -154,6 +155,10 @@ class SeriesIndexPage(Page):
         related_name="+",
     )
 
+    api_fields = [
+        APIField('episodes'),
+    ]
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('sub_title'),
@@ -187,3 +192,28 @@ class PromotedSeriesSerializer(Field):
             ('hero', hero_rendition.url),
             ('poster', poster_rendition.url),
         ])
+
+
+class EpisodeSerializer(ModelSerializer):
+    video = VideoSerializer('fill-512x288')
+
+    class Meta:
+        model = SeriesEpisode
+        fields = [
+            'sort_order',
+            'is_new',
+            'video',
+        ]
+
+
+class SeriesPreviewSerializer(ModelSerializer):
+    episodes = EpisodeSerializer(many=True)
+
+    class Meta:
+        model = SeriesPage
+        fields = [
+            'url',
+            'title',
+            'sub_title',
+            'episodes',
+        ]

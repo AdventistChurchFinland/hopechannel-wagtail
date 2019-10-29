@@ -11,7 +11,7 @@ from modelcluster.fields import ParentalKey
 from video.edit_handlers import VideoChooserPanel
 from video.models import VideoSerializer
 
-from series.models import PromotedSeriesSerializer
+from series.models import PromotedSeriesSerializer, SeriesPreviewSerializer
 
 
 class HomePagePromotedSeriesOrderable(Orderable):
@@ -43,7 +43,7 @@ class HomePageSeriesPreviewsOrderable(Orderable):
 
     api_fields = [
         APIField('title'),
-        APIField('series'),
+        APIField('series', serializer=SeriesPreviewSerializer()),
     ]
 
 
