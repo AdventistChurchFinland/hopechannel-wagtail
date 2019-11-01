@@ -179,7 +179,7 @@ class SeriesIndexPage(Page):
 class PromotedSeriesSerializer(Field):
     def to_representation(self, series):
         hero_rendition = series.hero.get_rendition('fill-1920x780')
-        poster_rendition = series.hero.get_rendition('width-218')
+        poster_rendition = series.poster.get_rendition('width-218')
 
         return OrderedDict([
             ('url', series.url),
@@ -189,8 +189,8 @@ class PromotedSeriesSerializer(Field):
             ('produced_from', series.produced_from),
             ('produced_to', series.produced_to),
             ('episode_count', series.episodes.count()),
-            ('hero', hero_rendition.url),
-            ('poster', poster_rendition.url),
+            ('hero_url', hero_rendition.url),
+            ('poster_url', poster_rendition.url),
         ])
 
 
