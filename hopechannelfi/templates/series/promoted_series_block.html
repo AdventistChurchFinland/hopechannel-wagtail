@@ -6,35 +6,7 @@
     {%if value.title %}<h2>{{ value.title }}</h2>{% endif %}
     <div id="series" class="row">
         {% for series_item in value.series %}
-            <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 series-menu">
-                <a href="{% pageurl series_item %}" title="{{ series_item.title }} - {{ series_item.sub_title }}">
-                    {% image series_item.poster width-218 as poster_image %}
-                    <img src="{{ poster_image.url }}" alt="{{ series_item.title }} - {{ series_item.sub_title }}">
-                    <span>Katso<img src="{% static 'images/icon-arrow-right.svg' %}" /></span>
-                </a>
-                <button>Info<img src="{% static 'images/icon-down.svg' %}" /></button>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 series-menu__info">
-                    {% image series_item.hero fill-1920x780 as hero_image %}
-                    <article class="series-menu__info-content" style="background-image: url({{ hero_image.url }});">
-                        <header>
-                            <h3>{{ series_item.title }}</h3>
-                            <p>{{ series_item.sub_title }}</p>
-                        </header>
-                        <p>
-                        {% if series_item.produced_from and series_item.produced_to %}
-                            Tuotantovuodet: {{ series_item.produced_from }}–{{ series_item.produced_to }}
-                        {% else %}  
-                            Tuotantovuosi: {{ series_item.produced_from }}
-                        {% endif %}  
-                        <br>Sarjassa jaksoja: {{ series_item.episodes.all|length }}
-                        </p>
-                        <div>{{ series_item.description|richtext }}</div>
-                        <p>
-                            <a href="{% pageurl series_item %}" title="{{ series_item.title }} - {{ series_item.sub_title }}" class="series-menu__info-content__link">Katso<img src="{% static 'images/icon-arrow-right.svg' %}" /></a>
-                        </p>
-                    </article>
-                </div>
-            </div> 
+            {% include "series/promoted_series_item.html" %}
         {% endfor %}
     </div>
 </section>
