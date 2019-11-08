@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
@@ -5,7 +6,6 @@ from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.modal_workflow import render_modal_workflow
 from wagtail.admin.utils import PermissionPolicyChecker
 from wagtail.core.models import Collection
-from wagtail.utils.pagination import paginate
 
 from video.admin import VideoAdmin
 from video.models import Video
@@ -58,7 +58,8 @@ def chooser(request):
             is_searching = False
 
         # Pagination
-        paginator, video_files = paginate(request, video_files, per_page=10)
+        paginator = Paginator(video_files, per_page=10)
+        page = paginator.get_page(request.GET.get('p'))
 
         return render(request, "video/chooser/results.html", {
             'video_files': video_files,
@@ -69,7 +70,7 @@ def chooser(request):
         searchform = SearchForm()
 
         video_files = Video.objects.order_by('-title')
-        paginator, video_files = paginate(request, video_files, per_page=10)
+        paginator = Paginator(video_files, per_page=10)
 
     video_modeladmin = VideoAdmin()
 
