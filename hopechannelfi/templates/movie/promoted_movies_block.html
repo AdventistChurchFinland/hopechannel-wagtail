@@ -1,0 +1,8 @@
+<section class="movies">
+  {% if value.title %}<h2>{{ value.title }}</h2>{% endif %}
+  <div class="row">
+    {% for movie in value.movies %}
+      {% include "movie/movie_preview.html" %}
+    {% endfor %}
+  </div>
+</section>

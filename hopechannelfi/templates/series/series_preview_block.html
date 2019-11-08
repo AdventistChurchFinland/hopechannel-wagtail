@@ -1,0 +1,31 @@
+{% load static %}
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+
+<section class="scroller">
+	<h2>
+		{% if value.title %}{{ value.title }}<br>{% endif %}
+		<a href="{% pageurl value.series %}" class="header-link" title="{{ value.series.title }} - {{ value.series.sub_title }}">
+			{{ value.series.title|upper }}{%if value.series.multi_season_series %}: {{ value.series.sub_title|upper }}{% endif %}
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+				<path
+					d="M9.707 13.707l5-5a.999.999 0 0 0 0-1.414l-5-5a.999.999 0 1 0-1.414 1.414L11.586 7H2a1 1 0 0 0 0 2h9.586l-3.293 3.293a.997.997 0 0 0 0 1.414.999.999 0 0 0 1.414 0z" />
+			</svg>
+		</a>
+	</h2>
+	<button class="scroller__advance scroller__advance--prev" title="Edellinen">
+		<img src="{% static 'images/icon-prev.svg' %}" alt="Edellinen" />
+	</button>
+	<button class="scroller__advance scroller__advance--next" title="Seuraava">
+		<img src="{% static 'images/icon-next.svg' %}" alt="Seuraava" />
+	</button>
+	<div class="scroller__container">
+		<div class="scroller__items">
+			{% for episode in value.series.episodes.all %}
+				<div class="photo-grid">
+	        {% include "series/episode_video.html" with number_of_episodes=value.series.episodes.all|length %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>      

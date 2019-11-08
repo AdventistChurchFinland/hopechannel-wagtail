@@ -1,0 +1,15 @@
+{%if value.videos|length > 0 %}
+<section class="videos">
+    {%if value.title %}
+      <h2>
+        {{ value.title }}
+        {%if value.sub_title %}<br><span class="header-link">{{ value.sub_title }}</span>{% endif %}
+      </h2>
+    {% endif %}
+    <div class="row">
+        {% for video in value.videos %}
+          {% include "video/promoted_video.html" %}
+        {% endfor %}       
+    </div>
+</section>
+{% endif %}
