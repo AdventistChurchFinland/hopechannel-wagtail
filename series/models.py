@@ -2,10 +2,10 @@ from collections import OrderedDict
 
 from django.db import models
 
-from wagtail.admin.edit_handlers import PageChooserPanel, FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.admin.edit_handlers import PageChooserPanel, FieldPanel, MultiFieldPanel, InlinePanel, StreamFieldPanel
 from wagtail.api import APIField
 from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.models import Image
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -19,18 +19,7 @@ from video.models import VideoSerializer
 from rest_framework.serializers import RelatedField, ModelSerializer
 from rest_framework.fields import Field, IntegerField
 
-
-class SeriesPageRelatedSeries(Orderable):
-    """Allows selecting one or more series to display in the related series section"""
-
-    page = ParentalKey("series.SeriesPage", related_name="related_series",
-                       on_delete=models.CASCADE, blank=True)
-    series = models.ForeignKey(
-        "series.SeriesPage", on_delete=models.CASCADE)
-
-    panels = [
-        PageChooserPanel("series")
-    ]
+from .blocks import PromotedSeriesBlock
 
 
 class SeriesPage(Page):
@@ -58,10 +47,11 @@ class SeriesPage(Page):
         related_name="+",
         help_text="The poster image is used in some promotional listings of the series."
     )
-    related_series_title = models.CharField(
-        blank=True, null=True, max_length=255, verbose_name="Title")
     multi_season_series = models.BooleanField(
         blank=True, null=False, default=False, verbose_name="Multi season series", help_text="Is this a part of a multi season series?")
+    content = StreamField([
+        ('related_series', PromotedSeriesBlock()),
+    ], null=True, blank=True)
 
     api_fields = [
         APIField('sub_title'),
@@ -73,6 +63,7 @@ class SeriesPage(Page):
         APIField('poster', serializer=ImageRenditionField(
             'width-218')),
         APIField('episodes'),
+        APIField('content'),
     ]
 
     content_panels = Page.content_panels + [
@@ -88,10 +79,7 @@ class SeriesPage(Page):
             FieldPanel('multi_season_series'),
         ], heading="Information"),
         InlinePanel('episodes', label="Episodes"),
-        MultiFieldPanel([
-            FieldPanel('related_series_title'),
-            InlinePanel("related_series", max_num=6)
-        ], heading="Related Series"),
+        StreamFieldPanel('content'),
     ]
 
     @property
