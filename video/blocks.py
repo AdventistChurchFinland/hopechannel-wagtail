@@ -1,6 +1,7 @@
 from django.utils.functional import cached_property
 
 from wagtail.core import blocks
+from .models import VideoSerializer
 
 
 class VideoChooserBlock(blocks.ChooserBlock):
@@ -13,6 +14,10 @@ class VideoChooserBlock(blocks.ChooserBlock):
     def widget(self):
         from .widgets import AdminVideoChooser
         return AdminVideoChooser
+
+    def get_api_representation(self, value, context=None):
+        video_id = super().get_api_representation(value, context=context)
+        return VideoSerializer('fill-512x288').to_representation(value)
 
     class Meta:
         icon = "media"

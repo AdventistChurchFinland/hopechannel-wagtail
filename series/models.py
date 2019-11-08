@@ -13,11 +13,10 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
 
+from rest_framework.serializers import ModelSerializer
+
 from video.edit_handlers import VideoChooserPanel
 from video.models import VideoSerializer
-
-from rest_framework.serializers import RelatedField, ModelSerializer
-from rest_framework.fields import Field, IntegerField
 
 from .blocks import PromotedSeriesBlock
 
@@ -143,10 +142,6 @@ class SeriesIndexPage(Page):
         related_name="+",
     )
 
-    api_fields = [
-        APIField('episodes'),
-    ]
-
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('sub_title'),
@@ -164,29 +159,11 @@ class SeriesIndexPage(Page):
         return context
 
 
-class PromotedSeriesSerializer(Field):
-    def to_representation(self, series):
-        hero_rendition = series.hero.get_rendition('fill-1920x780')
-        poster_rendition = series.poster.get_rendition('width-218')
-
-        return OrderedDict([
-            ('url', series.url),
-            ('title', series.title),
-            ('sub_title', series.sub_title),
-            ('description', series.description),
-            ('produced_from', series.produced_from),
-            ('produced_to', series.produced_to),
-            ('episode_count', series.episodes.count()),
-            ('hero_url', hero_rendition.url),
-            ('poster_url', poster_rendition.url),
-        ])
-
-
 class EpisodeSerializer(ModelSerializer):
     video = VideoSerializer('fill-512x288')
 
     class Meta:
-        model = SeriesEpisode
+        model = 'series.SeriesEpisode'
         fields = [
             'sort_order',
             'is_new',
@@ -198,8 +175,9 @@ class SeriesPreviewSerializer(ModelSerializer):
     episodes = EpisodeSerializer(many=True)
 
     class Meta:
-        model = SeriesPage
+        model = 'series.SeriesPage'
         fields = [
+            'id',
             'url',
             'title',
             'sub_title',
