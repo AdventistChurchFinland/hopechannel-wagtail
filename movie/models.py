@@ -1,10 +1,13 @@
 from django.db import models
 
-from wagtail.core.models import Page
 from wagtail.admin.edit_handlers import MultiFieldPanel, FieldPanel, RichTextField
+from wagtail.api import APIField
+from wagtail.core.models import Page
+from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from video.edit_handlers import VideoChooserPanel
+from video.models import VideoSerializer
 
 
 class MoviePage(Page):
@@ -38,6 +41,19 @@ class MoviePage(Page):
     producer = models.CharField(blank=True, null=True, max_length=255)
     description = RichTextField(
         features=['h3', 'h4', 'ol', 'ul', 'bold', 'italic', 'link'], null=True, blank=True)
+
+    api_fields = [
+        APIField('sub_title'),
+        APIField('hero', serializer=ImageRenditionField(
+            'fill-1920x780')),
+        APIField('video', serializer=VideoSerializer(
+            'fill-1024x1024 ')),
+        APIField('hover_thumbnail', serializer=ImageRenditionField(
+            'fill-1024x1024 ')),
+        APIField('year'),
+        APIField('producer'),
+        APIField('description'),
+    ]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
