@@ -142,6 +142,12 @@ class SeriesIndexPage(Page):
         related_name="+",
     )
 
+    api_fields = [
+        APIField('sub_title'),
+        APIField('hero', serializer=ImageRenditionField(
+            'fill-1920x780')),
+    ]
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('sub_title'),
@@ -163,7 +169,7 @@ class EpisodeSerializer(ModelSerializer):
     video = VideoSerializer('fill-512x288')
 
     class Meta:
-        model = 'series.SeriesEpisode'
+        model = SeriesEpisode
         fields = [
             'sort_order',
             'is_new',
@@ -175,7 +181,7 @@ class SeriesPreviewSerializer(ModelSerializer):
     episodes = EpisodeSerializer(many=True)
 
     class Meta:
-        model = 'series.SeriesPage'
+        model = SeriesPage
         fields = [
             'id',
             'url',

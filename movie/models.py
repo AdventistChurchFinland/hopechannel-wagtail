@@ -91,6 +91,12 @@ class MoviesIndexPage(Page):
         related_name="+",
     )
 
+    api_fields = [
+        APIField('sub_title'),
+        APIField('hero', serializer=ImageRenditionField(
+            'fill-1920x780')),
+    ]
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('sub_title'),
