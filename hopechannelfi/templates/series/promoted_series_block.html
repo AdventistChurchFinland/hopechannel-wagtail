@@ -6,7 +6,7 @@
     {%if value.title %}<h2>{{ value.title }}</h2>{% endif %}
     <div id="series" class="row">
         {% for series_item in value.series %}
-            {% include "series/promoted_series_item.html" %}
+            {% include "series/promoted_series_item.html" with disable_info=value.disable_info %}
         {% endfor %}
     </div>
 </section>
